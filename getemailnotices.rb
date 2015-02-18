@@ -19,18 +19,15 @@ Net::FTP.open(server) do |ftp|
 	filelist18 = ftp.nlst('em18*')
 	filelist19 = ftp.nlst('em19*')
 	allfiles = filelist12 + filelist13 + filelist14 + filelist15 + filelist16 + filelist17 + filelist18 + filelist19
-	noticesdir = File.dirname(notices)
-	unless File.directory?(noticesdir)	# create the notices/ directory if it doesn't already exist
-		FileUtils.mkdir_p(noticedir)
-	end
 	ARGV.each { |a|		# for each command-line arg, i.e. date...
+		FileUtils.mkdir_p("notices/#{a}")
 		checkdate = Date.parse(a)
 		puts checkdate
 		count = 0
 		allfiles.each { |file|
 			if ftp.mtime(file).to_date == checkdate then	# compare file's mtime to supplied check date
 				puts "getting #{file}..."
-				localpath = "notices/#{file}"
+				localpath = "notices/#{a}/#{file}"
 				ftp.gettextfile(file, localpath)
 				count += 1
 			end
