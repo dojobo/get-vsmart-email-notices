@@ -1,5 +1,6 @@
 require 'date'
 require 'net/ftp'
+require 'fileutils'
 
 server = "SERVER ADDRESS"
 user = "USERNAME"
@@ -9,29 +10,33 @@ Net::FTP.open(server) do |ftp|
 	ftp.login(user, pass)
 	print "connected to #{server} - "
 	puts ftp.pwd
-	#ftp.chdir('OverDrive/')
-	filelist = ftp.list('em191*')
-	puts filelist
-	filelist.each { |file| 
-		puts ftp.mtime(file).to_date
-
-	}
-=begin
-	ARGV.each { |a|			# main loop, iterates over each command-line arg
-		checkdate = Date.parse(a)	# convert arg to date
+	filelist12 = ftp.nlst('em12*') # kludge to get around ftp server's limits; add to these as necessary
+	filelist13 = ftp.nlst('em13*')
+	filelist14 = ftp.nlst('em14*')
+	filelist15 = ftp.nlst('em15*')
+	filelist16 = ftp.nlst('em16*')
+	filelist17 = ftp.nlst('em17*')
+	filelist18 = ftp.nlst('em18*')
+	filelist19 = ftp.nlst('em19*')
+	allfiles = filelist12 + filelist13 + filelist14 + filelist15 + filelist16 + filelist17 + filelist18 + filelist19
+	noticesdir = File.dirname(notices)
+	unless File.directory?(noticesdir)	# create the notices/ directory if it doesn't already exist
+		FileUtils.mkdir_p(noticedir)
+	end
+	ARGV.each { |a|		# for each command-line arg, i.e. date...
+		checkdate = Date.parse(a)
 		puts checkdate
 		count = 0
-		# date comparison
-		filelist.each { |file| 
-			puts ftp.mtime(file)
-			#if ftp.mtime(file).to_date == checkdate then
-			#	puts "#{file} has mtime of #{checkdate}"
-			#	count += 1
-			#end
+		allfiles.each { |file|
+			if ftp.mtime(file).to_date == checkdate then	# compare file's mtime to supplied check date
+				puts "getting #{file}..."
+				localpath = "notices/#{file}"
+				ftp.gettextfile(file, localpath)
+				count += 1
+			end
 		}
 		puts "total count: #{count}"
 	}
-=end
 
 	ftp.close
 end
