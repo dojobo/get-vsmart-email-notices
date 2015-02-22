@@ -18,8 +18,8 @@ for date in dates:
                 rescount += 1
             elif re.search('First Overdue Notice:', contents):
                 overdueonecount += 1
-            elif re.search('10-day Overdue Notice:', contents):
+            elif re.search('10 Day Overdue Notice:', contents):
                 overduetencount += 1
-            elif re.search('Long Overdue Notice:', contents):
+            elif re.search('Long Overdue Invoice:', contents):
                 invoicecount += 1
     print "Totals for #{date}:\nReservations: #{rescount}\nFirst Overdues: #{overdueonecount}\n10-day Overdues: #{overduetencount}\nInvoices: #{invoicecount}\n------"
