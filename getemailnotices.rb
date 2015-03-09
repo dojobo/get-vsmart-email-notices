@@ -1,10 +1,12 @@
 require 'date'
 require 'net/ftp'
 require 'fileutils'
+require 'yaml'
 
-server = "SERVER ADDRESS"
-user = "USERNAME"
-pass = "PASSWORD"
+credentials = YAML.load_file("credentials.yml") 
+server = credentials[:server]
+user = credentials[:username]
+pass = credentials[:password]
 
 Net::FTP.open(server) do |ftp|
 	ftp.login(user, pass)
