@@ -1,7 +1,11 @@
 # coding: interpy
 
-import sys, os, re
+import sys, os, re, time
+import smtplib
 
+if len(sys.argv) == 1:
+    today = time.strftime("%Y") + "-" + time.strftime("%m") + "-" + time.strftime("%d")
+    sys.argv.append(today)
 dates = sys.argv[1:]
 for date in dates:
     rescount = 0

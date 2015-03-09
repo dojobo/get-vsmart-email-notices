@@ -1,9 +1,9 @@
 require 'date'
 require 'net/ftp'
 require 'fileutils'
-require 'yaml'
+require 'psych'
 
-credentials = YAML.load_file("credentials.yml") 
+credentials = Psych.load_file('credentials.yml') 
 server = credentials[:server]
 user = credentials[:username]
 pass = credentials[:password]
@@ -21,6 +21,7 @@ Net::FTP.open(server) do |ftp|
 	filelist18 = ftp.nlst('em18*')
 	filelist19 = ftp.nlst('em19*')
 	allfiles = filelist12 + filelist13 + filelist14 + filelist15 + filelist16 + filelist17 + filelist18 + filelist19
+	ARGV << Date.today.to_s if ARGV.empty?		# if no argument is given on command line, default to today's date
 	ARGV.each { |a|		# for each command-line arg, i.e. date...
 		FileUtils.mkdir_p("notices/#{a}")
 		checkdate = Date.parse(a)
