@@ -12,7 +12,8 @@ Net::FTP.open(server) do |ftp|
 	ftp.login(user, pass)
 	print "connected to #{server} - "
 	puts ftp.pwd
-	filelist = %w(em20* em21*).each_with_object([]) { |range, filelist|
+	#filelist = %w(em10* em11* em12* em13* em14* em15* em16* em17* em18* em19* em20* em21* em22* em23*).each_with_object([]) { |range, filelist|
+	filelist = %w(em20* em21* em22* em23*).each_with_object([]) { |range, filelist|
   	begin
     	filelist.concat ftp.nlst(range)
   	rescue Net::FTPPermError
