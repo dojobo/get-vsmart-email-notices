@@ -2,9 +2,9 @@ This small project (my first github repo!) simply finds and gets the email notic
 
 The counting script (countnotices.py) is separate, and written in Python, because I found that Ruby had trouble with Windows file permissions.
 
-USAGE: `getnotices.rb yyyy-mm-dd [yyyy-mm-dd]...`
-Just put in the date you want as a command-line argument. You can get multiple dates at once.
+The counting script also writes to a MS-SQL database. This provides a permanent record of the counts as well as email (using SQL Server's DB Mail) based on an INSERT trigger. TSQL scripts are in the /scripts/ folder for creating the table, triggers, stored procedures, and SQL Server Agent job. 
 
-`countnotices.py yyyy-mm-dd [yyyy-mm-dd]...`
+USAGE: `getnotices.rb yyyy-mm-dd [yyyy-mm-dd]...`
+Just put in the date you want as a command-line argument. You can get multiple dates at once. Putting no date will default to today's.
 
 Credentials are separated into credentials.yml. This should be in your .gitignore file. Use credentials-template.yml file and rename it as credentials.yml.
