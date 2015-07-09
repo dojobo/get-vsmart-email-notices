@@ -2,7 +2,8 @@
 
 import sys, os, re, time, yaml, pymssql
 
-credentials = open('credentials.yml', "r")
+credentialspath = os.path.abspath(os.path.dirname(__file__)) + '/credentials.yml'
+credentials = open(credentialspath, "r")
 destinfo = yaml.load(credentials)
 dbserver = destinfo['dbserver']
 dbuser = destinfo['dbuser']
