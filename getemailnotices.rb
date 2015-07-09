@@ -3,7 +3,8 @@ require 'net/ftp'
 require 'fileutils'
 require 'psych'
 
-credentials = Psych.load_file('credentials.yml') 
+credentialspath = __dir__ + '/credentials.yml'
+credentials = Psych.load_file(credentialspath) 
 server = credentials['server']
 user = credentials['username']
 pass = credentials['password']
