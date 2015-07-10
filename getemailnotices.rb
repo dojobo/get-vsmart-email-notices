@@ -29,7 +29,7 @@ Net::FTP.open(server) do |ftp|
 		filelist.each { |file|
 			if ftp.mtime(file).to_date == checkdate then	# compare file's mtime to supplied check date
 				puts "getting #{file}..."
-				localpath = "notices/#{a}/#{file}"
+				localpath = __dir__ + "/notices/#{a}/#{file}"
 				ftp.gettextfile(file, localpath)
 				count += 1
 			end
