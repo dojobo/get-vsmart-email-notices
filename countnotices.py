@@ -18,7 +18,7 @@ for date in dates:
     overduetencount = 0
     invoicecount = 0
     print date
-    noticesdir = "notices/" + date + "/"
+    noticesdir = os.path.abspath(os.path.dirname(__file__)) + "/notices/" + date + "/"
     notices = os.listdir(noticesdir)
     for filename in notices:
         with open(noticesdir + filename, 'r') as textfile:
