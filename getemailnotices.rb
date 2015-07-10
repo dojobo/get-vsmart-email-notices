@@ -22,7 +22,8 @@ Net::FTP.open(server) do |ftp|
 	}
 	ARGV << Date.today.to_s if ARGV.empty?		# if no argument is given on command line, default to today's date
 	ARGV.each { |a|		# for each command-line arg, i.e. date...
-		FileUtils.mkdir_p("notices/#{a}")
+		todaysnoticedir = __dir__ + "/notices/#{a}"
+		FileUtils.mkdir_p(todaysnoticedir)
 		checkdate = Date.parse(a)
 		puts checkdate
 		count = 0
