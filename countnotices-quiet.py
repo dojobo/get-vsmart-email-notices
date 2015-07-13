@@ -18,18 +18,24 @@ for date in dates:
     overduetencount = 0
     invoicecount = 0
     print date
-    noticesdir = "notices/" + date + "/"
-    notices = os.listdir(noticesdir)
-    for filename in notices:
-        with open(noticesdir + filename, 'r') as textfile:
-            contents = textfile.read()
-            if re.search('Reservation Notice:', contents):
-                rescount += 1
-            elif re.search('First Overdue Notice:', contents):
-                overdueonecount += 1
-            elif re.search('10 Day Overdue Notice:', contents):
-                overduetencount += 1
-            elif re.search('Long Overdue Invoice:', contents):
-                invoicecount += 1
-    totals = "Totals for #{date}:\nReservations: #{rescount}\nFirst Overdues: #{overdueonecount}\n10-day Overdues: #{overduetencount}\nInvoices: #{invoicecount}\n------"
-    print totals
+    noticesdir = os.path.abspath(os.path.dirname(__file__)) + "/notices/" + date + "/"
+    try:
+        notices = os.listdir(noticesdir)
+    except OSError:
+        print "Directory \'#{noticesdir}\' does not seem to exist. 1. Is date of the format yyyy-mm-dd? 2. Have you downloaded notices for #{date} yet?"
+    else:
+        noticesdir = "notices/" + date + "/"
+        notices = os.listdir(noticesdir)
+        for filename in notices:
+            with open(noticesdir + filename, 'r') as textfile:
+                contents = textfile.read()
+                if re.search('Reservation Notice:', contents):
+                    rescount += 1
+                elif re.search('First Overdue Notice:', contents):
+                    overdueonecount += 1
+                elif re.search('10 Day Overdue Notice:', contents):
+                    overduetencount += 1
+                elif re.search('Long Overdue Invoice:', contents):
+                    invoicecount += 1
+        totals = "Totals for #{date}:\nReservations: #{rescount}\nFirst Overdues: #{overdueonecount}\n10-day Overdues: #{overduetencount}\nInvoices: #{invoicecount}\n------"
+        print totals
