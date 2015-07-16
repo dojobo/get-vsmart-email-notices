@@ -31,7 +31,11 @@ Net::FTP.open(server) do |ftp|
 			if ftp.mtime(file).to_date == checkdate then	# compare file's mtime to supplied check date
 				puts "getting #{file}..."
 				localpath = __dir__ + "/notices/#{a}/#{file}"
-				ftp.gettextfile(file, localpath)
+				begin
+					ftp.gettextfile(file, localpath)
+				rescue Net::FTPReplyError
+					puts "Couldn't get #{file}!"
+				end
 				count += 1
 			end
 		}
