@@ -2,6 +2,7 @@ require 'date'
 require 'net/ftp'
 require 'fileutils'
 require 'psych'
+require 'retries'
 
 credentialspath = __dir__ + '/credentials.yml'
 credentials = Psych.load_file(credentialspath) 
@@ -29,12 +30,10 @@ Net::FTP.open(server) do |ftp|
 		count = 0
 		filelist.each { |file|
 			if ftp.mtime(file).to_date == checkdate then	# compare file's mtime to supplied check date
-				puts "getting #{file}..."
-				localpath = __dir__ + "/notices/#{a}/#{file}"
-				begin
+				with_retries(:max_tries => 3, :rescue => [Net::FTPReplyError, Net::ReadTimeout]) do |attnum|
+					puts "getting #{file} (attempt ##{attnum}..."
+					localpath = __dir__ + "/notices/#{a}/#{file}"
 					ftp.gettextfile(file, localpath)
-				rescue Net::FTPReplyError
-					puts "Couldn't get #{file}!"
 				end
 				count += 1
 			end
