@@ -31,7 +31,7 @@ Net::FTP.open(server) do |ftp|
 		filelist.each { |file|
 			if ftp.mtime(file).to_date == checkdate then	# compare file's mtime to supplied check date
 				with_retries(:max_tries => 3, :rescue => [Net::FTPReplyError, Net::ReadTimeout]) do |attnum|
-					puts "getting #{file} (attempt ##{attnum}..."
+					puts "getting #{file} (attempt ##{attnum})..."
 					localpath = __dir__ + "/notices/#{a}/#{file}"
 					ftp.gettextfile(file, localpath)
 				end
