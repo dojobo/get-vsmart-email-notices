@@ -49,7 +49,7 @@ Net::FTP.open(server) do |ftp|
 			end
 		end
 		puts "total count: #{count}"
-	end
+	end 
 
 	ftp.close
 end
